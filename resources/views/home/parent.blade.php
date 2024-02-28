@@ -45,7 +45,7 @@
     @include('home.include.navbar')
     @include('home.include.sidebar')
 
-    <main id="main" class="bg-success text-white">
+    <main id="main">
         @yield('content')
     </main>
 
