@@ -65,7 +65,7 @@
     <script src="{{ asset('admin/assets/vendor/php-email-form/validate.js') }}"></script>
 
     <!-- Template Main JS File -->
-    <script src="{{ asset('admin/assets/js/main.j') }}s"></script>
+    <script src="{{ asset('admin/assets/js/main.js') }}"></script>
 
 </body>
 
