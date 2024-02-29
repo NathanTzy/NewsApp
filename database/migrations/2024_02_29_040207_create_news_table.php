@@ -15,12 +15,10 @@ return new class extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->id();
-            // Relasi with category
-            $table->foreignId( 'category_id' );
+            $table->foreignId('category_id');
             $table->string('title');
-            $table->string('image');
-            // Slug = URL Friendly
             $table->string('slug');
+            $table->string('image');
             $table->longText('content');
             $table->timestamps();
         });

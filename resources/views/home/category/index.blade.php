@@ -6,7 +6,7 @@
             <h2>CATEGORY</h2>
 
             <div class="d-flex justify-content-end">
-                <a href="" class="btn btn-primary">
+                <a href="{{ route('category.create') }}" class="btn btn-primary">
                     <i class="bi bi-plus"></i> Create Category</a>
             </div>
 
@@ -21,28 +21,44 @@
                                     <th>Name</th>
                                     <th>Slug</th>
                                     <th>Image</th>
-                                    <th>Action</th>
+                                    <th>action</th>
                                 </tr>
                             </thead>
+
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Kaskus</td>
-                                    <td>Kaskus</td>
-                                    <td><img src="" alt="AWOKAOW"></td>
-                                    <td>
-                                        <a href="#" class="btn btn-info">
-                                            <i class="bi bi-eye"></i>
-                                        </a>
-                                        <a href="" class="btn btn-warning">
-                                            <i class="bi bi-pencil"></i>
-                                        </a>
-                                        <a href="" class="btn btn-danger">
-                                            <i href="" class="bi bi-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                @forelse ($category as $row)
+                                    <tr>
+                                        {{-- Numbering menggunakan loop->iteration --}}
+                                        <td>{{ $loop->iteration }}</td>
+                                        {{-- menampilkan data name --}}
+                                        <td>{{ $row->name }}</td>
+                                        {{-- mwnampilkan data  slug --}}
+                                        <td>{{ $row->slug }}</td>
+                                        {{-- menampilkan data image --}}
+                                        <td><img src="{{ $row->image }}" alt="" width="100px" class="rounded-3">
+                                        </td>
+
+                                        <td>
+                                            <!-- show using modal with id  -->
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#basicModal{{ $row->id }}">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            @include('home.category.include.modal-show')
+
+
+                                            {{-- Edit with route category --}}
+                                            <a href="{{ route('category.edit', $row->id) }}" class="btn btn-warning">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>
+                                        </td>
+
+                                    </tr>
+                                @empty
+                                    <p>kosong</p>
+                                @endforelse
                             </tbody>
+
                         </table>
                     </div>
                 </div>

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class CategoryController extends Controller
 {
@@ -14,7 +16,15 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('home.category.index');
+        // Title halaman
+        $title = 'Category - Index';
+        // Mengurutkan data berdasarkan "terbaru"
+        $category = Category::latest()->get();
+
+        return view('home.category.index', compact(
+            'category',
+            'title'
+        ));
     }
 
     /**
@@ -24,7 +34,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('home.category.create');
+        // Title halaman
+        $title = 'Category - Index';
+        return view('home.category.create', compact('title'));
     }
 
     /**
@@ -35,7 +47,30 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validasi data
+        $this->validate($request, [
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+        ]);
+
+        // melakukan upload img
+        $image = $request->file('image');
+        $image->storeAs('public/category', $image->hashName());
+        // Generate nama unik 'hashName'
+        // generate nama asli dari image getClientOriginalName
+
+
+
+        // Save to DataBase
+        Category::create([
+            'name' => $request->name,
+            'slug' => Str::slug($request->name),
+            'image' => $image->hashName()
+        ]);
+
+
+
+        // return redirect
+        return redirect()->route('category.index')->with('success', 'Category berhasil ditambahkan');
     }
 
     /**
@@ -57,7 +92,11 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        // hal edit
+        // Title halaman
+        $title = 'Category - Index';
+        $category = Category::find($id);
+        return view('home.category.edit', compact('category', 'title'));
     }
 
     /**
