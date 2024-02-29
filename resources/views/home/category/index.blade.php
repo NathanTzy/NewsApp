@@ -38,7 +38,7 @@
                                         <td><img src="{{ $row->image }}" alt="" width="100px" class="rounded-3">
                                         </td>
 
-                                        <td>
+                                        <td class="d-flex gap-2">
                                             <!-- show using modal with id  -->
                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                                 data-bs-target="#basicModal{{ $row->id }}">
@@ -51,6 +51,13 @@
                                             <a href="{{ route('category.edit', $row->id) }}" class="btn btn-warning">
                                                 <i class="bi bi-pencil-square"></i>
                                             </a>
+
+                                            {{-- Button delete with route category.destroy --}}
+                                            <form action="{{ route('category.destroy', $row->id) }}" method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger inline-block"><i class="bi bi-trash"></i></button>
+                                            </form>
                                         </td>
 
                                     </tr>

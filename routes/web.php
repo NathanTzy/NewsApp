@@ -26,4 +26,5 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 // Route for news using resource
 Route::resource('news', NewsController::class);
 // Route for Category using Resource
-Route::resource('category', CategoryController::class);
+// tambahin middleware  auth agar hanya bisa diakses oleh admin
+Route::resource('category', CategoryController::class)->middleware('auth');

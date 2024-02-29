@@ -6,6 +6,7 @@ use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -49,6 +50,7 @@ class CategoryController extends Controller
     {
         // Validasi data
         $this->validate($request, [
+            'name' => 'required|max:100',
             'image' => 'required|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
@@ -108,7 +110,38 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'image' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'name' => 'required|max:100'
+        ]);
+
+        // get data category by id
+        $category = Category::find($id);
+
+        // klo image kosong
+        if ($request->file('image') == '') {
+            $category->update([
+                'name' => $request->name,
+                'slug' => Str::slug($request->name)
+            ]);
+            return redirect()->route('category.index');
+        } else {
+            // Jika gambarnya diupdate
+            // hapus image lama
+            Storage::disk('local')->delete('public/category/' . basename($category->image));
+
+            // upload image baru
+            $image = $request->file('image');
+            $image->storeAs('public/category', $image->hashName());
+
+            // update data
+            $category->update([
+                'name' => $request->name,
+                'slug' => Str::slug($request->name),
+                'image' => $image->hashName()
+            ]);
+        };
+        return redirect()->route('category.index');
     }
 
     /**
@@ -119,6 +152,14 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //get data by id
+        $category = category::find($id);
+
+        // delete image
+        Storage::disk('local')->delete('public/category/' . basename($category->image));
+
+        // delete data by id
+        $category->delete();
+        return redirect()->route('category.index');
     }
 }
