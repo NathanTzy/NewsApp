@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\NewsController;
+use App\Http\Controllers\FrontController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -21,10 +24,26 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-// Route for news using resource
-Route::resource('news', NewsController::class);
-// Route for Category using Resource
-// tambahin middleware  auth agar hanya bisa diakses oleh admin
-Route::resource('category', CategoryController::class)->middleware('auth');
+// Auth::routes();
+// // handle redirect register to login
+// Route::match(['get','post'],'/register',function(){
+//     return redirect('/login');
+// });
+
+
+Route::resource('front',  FrontController::class);
+
+// Route middleware
+Route::middleware('auth')->group(function () {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+    // Route for admin
+    Route::middleware(['auth', 'admin'])->group(function () {
+        // Route for news using resource
+        Route::resource('news', NewsController::class);
+        // Route for Category using Resource
+        // tambahin middleware  auth agar hanya bisa diakses oleh admin
+        Route::resource('category', CategoryController::class);
+    });
+});

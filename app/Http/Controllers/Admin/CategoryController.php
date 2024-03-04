@@ -20,11 +20,13 @@ class CategoryController extends Controller
         // Title halaman
         $title = 'Category - Index';
         // Mengurutkan data berdasarkan "terbaru"
-        $category = Category::latest()->get();
+        // paginate 5
+        $category = Category::latest()->paginate(3);
 
         return view('home.category.index', compact(
             'category',
             'title'
+        
         ));
     }
 
