@@ -3,6 +3,7 @@
 
         <ul class="sidebar-nav" id="sidebar-nav">
 
+            {{-- home --}}
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('home') }}">
                     <i class="bi bi-grid"></i>
@@ -10,13 +11,16 @@
                 </a>
             </li>
 
+            @if (Auth::user()->role == 'admin')
+            {{-- category --}}
             <li class="nav-item">
                 <a class="nav-link mt-3" href="{{ route('category.index') }}">
                     <i class="bi bi-basket"></i>
                     <span>Category</span>
                 </a>
             </li>
-            <!-- End Dashboard Nav -->
+        @else
+        @endif
         </ul>
 
     </aside>
