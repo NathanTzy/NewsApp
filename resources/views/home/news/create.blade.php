@@ -39,7 +39,14 @@
                     <label for="col col-form-label">Content</label>
                     <textarea id="editor" name="content"></textarea>
                 </div>
-                
+
+                {{-- button submit --}}
+                <div class="d-flex justify-content-end mt-3">
+                    <button type="submit" class="btn btn-primary"> 
+                        <i class="bi bi-plus"></i> 
+                        Create News</button>
+                </div>
+
                 {{-- PAKE ID!!! --}}
                 {{-- CKEditor --}}
                 <script>
