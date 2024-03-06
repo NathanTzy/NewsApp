@@ -2,6 +2,21 @@
 
 @section('content')
     <div class="row">
+        @if (session('success'))
+            <div class="alert alert-success text-center mt-2">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if (session('update'))
+            <div class="alert alert-warning text-center mt-2">
+                {{ session('update') }}
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger text-center mt-2">
+                {{ session('error') }}
+            </div>
+        @endif
         <div class="card p-4">
             <h2>CATEGORY</h2>
 
@@ -56,7 +71,8 @@
                                             <form action="{{ route('category.destroy', $row->id) }}" method="post">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger inline-block"><i class="bi bi-trash"></i></button>
+                                                <button type="submit" class="btn btn-danger inline-block"><i
+                                                        class="bi bi-trash"></i></button>
                                             </form>
                                         </td>
 

@@ -26,7 +26,7 @@ class CategoryController extends Controller
         return view('home.category.index', compact(
             'category',
             'title'
-        
+
         ));
     }
 
@@ -120,13 +120,14 @@ class CategoryController extends Controller
         // get data category by id
         $category = Category::find($id);
 
+
         // klo image kosong
         if ($request->file('image') == '') {
             $category->update([
                 'name' => $request->name,
                 'slug' => Str::slug($request->name)
             ]);
-            return redirect()->route('category.index');
+            return redirect()->route('category.index')->with((['update' => 'Data Berhasil Diupdate']));;
         } else {
             // Jika gambarnya diupdate
             // hapus image lama
@@ -143,7 +144,7 @@ class CategoryController extends Controller
                 'image' => $image->hashName()
             ]);
         };
-        return redirect()->route('category.index');
+
     }
 
     /**
@@ -162,6 +163,6 @@ class CategoryController extends Controller
 
         // delete data by id
         $category->delete();
-        return redirect()->route('category.index');
+        return redirect()->route('category.index')->with((['error' => 'Data Berhasil Dihapus']));
     }
 }

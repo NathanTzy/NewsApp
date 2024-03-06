@@ -3,6 +3,11 @@
 @section('content')
     <div class="row">
         <div class="card p-4">
+            @if (session('error'))
+            <div class="alert alert-danger text-center mt-2">
+                {{ session('error') }}
+            </div>
+        @endif
             <h1 class="fw-bold text-center">EDIT</h1>
             <form action="{{ route('category.update', $category->id) }}" method="post" enctype="multipart/form-data">
                 @csrf

@@ -19,6 +19,13 @@
                     <span>Category</span>
                 </a>
             </li>
+            {{-- news --}}
+            <li class="nav-item">
+                <a class="nav-link mt-3" href="{{ route('news.index') }}">
+                    <i class="bi bi-clipboard-data"></i>
+                    <span>News</span>
+                </a>
+            </li>
         @else
         @endif
         </ul>

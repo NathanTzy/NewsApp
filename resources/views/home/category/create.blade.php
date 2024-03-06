@@ -6,7 +6,17 @@
             <h3>
                 Create Category
             </h3>
-
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="b mb-0 fw-bold text-center">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @else
+                
+            @endif
             {{-- Route store --}}
             {{-- untuk melakukan penambahan data --}}
             {{-- untuk enctype melakukan input karena ada upload berupa file --}}
@@ -31,6 +41,4 @@
             </form>
         </div>
     </div>
-
-    
 @endsection
