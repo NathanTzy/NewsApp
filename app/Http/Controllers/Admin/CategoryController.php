@@ -127,7 +127,7 @@ class CategoryController extends Controller
                 'name' => $request->name,
                 'slug' => Str::slug($request->name)
             ]);
-            return redirect()->route('category.index')->with((['update' => 'Data Berhasil Diupdate']));;
+            
         } else {
             // Jika gambarnya diupdate
             // hapus image lama
@@ -144,7 +144,7 @@ class CategoryController extends Controller
                 'image' => $image->hashName()
             ]);
         };
-
+        return redirect()->route('category.index')->with((['update' => 'Data Berhasil Diupdate']));;
     }
 
     /**
