@@ -11,15 +11,20 @@ use App\Http\Controllers\Controller;
 class NewsController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource. 
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         $title = 'index news';
-        // guna compact buat ngirim data ke view
-        return view('home.news.index', compact('title'));
+
+        // get data terbaru dari table news dari model news
+        $news = News::latest()->paginate(3);
+        $category = Category::all();
+
+        // guna compact buat ngirim data ke view yang diambil dari variable diatas
+        return view('home.news.index', compact('title','news','category'));
     }
 
     /**
@@ -57,7 +62,7 @@ class NewsController extends Controller
 
         // fungsi buat nyimpen image ek dalam folder public/news
         // hashname() gunanya buat ngasih nama random ke file image
-        $image->storeAs('public/news',$image->hashName());
+        $image->storeAs('public/news/',$image->hashName());
 
         //create data
         News::create([
@@ -79,7 +84,13 @@ class NewsController extends Controller
      */
     public function show($id)
     {
-        //
+
+        // get data by id
+        // findOrFail guna buat klo data ga ada maka eror 404
+        $news = News::findOrFail($id);
+
+        $title = 'show - news';
+        return view('home.news.show' , compact('title','news'));
     }
 
     /**
@@ -90,7 +101,12 @@ class NewsController extends Controller
      */
     public function edit($id)
     {
-        //
+        // get data by id
+        $news = News::findOrFail($id);
+        $category = Category::all();
+        $title = 'edit - news';
+
+        return view('home.news.edit', compact('category','news','title'));
     }
 
     /**

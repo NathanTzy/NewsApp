@@ -5,14 +5,14 @@
         <div class="card p-4">
             <h3 class="fw-bold text-center my-4 fs-1">NEWS CREATOR</h3>
 
-            <form action="{{ route('news.store') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('news.update', $news->id) }}" method="post" enctype="multipart/form-data">
                 @csrf
-                @method('POST')
+                @method('PUT')
 
                 {{-- field buat title --}}
                 <div class="mb-3">
                     <label for="inputTitle" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="inputTitle" name="title" value="{{ old('title') }}">
+                    <input type="text" class="form-control" id="inputTitle" name="title" value="{{ $news->titlle }}">
                 </div>
                 {{-- image --}}
                 <div class="mb-3">
@@ -24,7 +24,10 @@
                     <label class="col col-form-label">Select Category</label>
                     <div class="col">
                         <select name="category_id" class="form-select" aria-label="category_id">
-                            <option selected>🗿🥔🥕</option>
+                            <option value="{{ $news->category->id }}" selected>{{ $news->category->name }}</option>
+                            <option class="fw-bold">
+                                <<<=== CHOOSE NEW CATEGORY===>>>
+                            </option>
                             @foreach ($category as $row)
                                 <option value="{{ $row->id }}">{{ $row->name }}</option>
                             @endforeach
@@ -37,22 +40,26 @@
                 {{-- id CKEditor --}}
                 <div class="mb-2">
                     <label for="col col-form-label">Content</label>
-                    <textarea id="editor" name="content"></textarea>
+                    <textarea id="editor" name="content">
+                        {!! $news->content !!}
+                    </textarea>
                 </div>
 
                 {{-- button submit --}}
-                <div class="d-flex justify-content-end mt-3">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-plus"></i>
-                        Create News</button>
-                </div>
+                <div class="d-flex justify-content-end mt-3 gap-2">
+                    <button type="submit" class="btn btn-warning">
+                        <i class="bi bi-pencil"></i>
+                        Update News</button>
 
+                        <button class="btn btn-primary">
+                            <a href="{{ route('news.index') }}" class="text-white"><i class="bi bi-arrow-left"></i> Back</a>
+                        </button>
+                </div>
 
 
             </form>
         </div>
     </div>
-
     {{-- PAKE ID!!! --}}
     {{-- CKEditor --}}
     <script>

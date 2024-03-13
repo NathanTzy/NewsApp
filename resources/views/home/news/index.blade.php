@@ -20,15 +20,41 @@
         <div class="container">
             <div class="card p-3">
                 <h5 class="card-title">Data news</h5>
-                <table class="table data-table">
-                    <th>
+                <table class="table datatable">
+                    <thead>
                         <tr>
-                            td*3
+                            <th>No</th>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Image news</th>
+                            <th>Image category</th>
+                            <th>Action</th>
                         </tr>
-                    </th>
+                    </thead>
+                    <tbody>
+                        @forelse ($news as $row)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $row->title }}</td>
+                                <td>{{ $row->category->name }}</td>
+                                <td><img src="{{ url('storage/news', $row->image) }}" alt="p" width="100px"
+                                        class="rounded-3"></td>
+                                <td><img src="{{ $row->category->image }}" width="100px" alt="p" class="rounded-3">
+                                </td>
+                                <td>
+                                    <a href="{{ route('news.show', $row->id ) }}" class="btn btn-primary"><i class="bi bi-eye"></i></a>
+                                    <a href="{{ route('news.edit', $row->id) }}" class="btn btn-warning"><i class="bi bi-pencil"></i></a>
+                                    <button class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                                </td>
+                            </tr>
+                        @empty
+                            <p class="text-center">minimal isi lah</p>
+                        @endforelse
+                    </tbody>
                 </table>
+                {{-- paginate --}}
+                {{ $news->links('pagination::bootstrap-5') }}
             </div>
         </div>
     </div>
-    
 @endsection
