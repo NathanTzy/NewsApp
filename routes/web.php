@@ -37,6 +37,8 @@ Route::resource('front',  FrontController::class);
 // Route middleware
 Route::middleware('auth')->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/profile', [App\Http\Controllers\profile\ProfileController::class,'index'])->name('profile.index');
+    Route::get('/changePassword', [\App\Http\Controllers\profile\ProfileController::class, 'changePassword'])->name('profile.changePassword');
 
     // Route for admin
     Route::middleware(['auth', 'admin'])->group(function () {
@@ -44,6 +46,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('news', NewsController::class);
         // Route for Category using Resource
         // tambahin middleware  auth agar hanya bisa diakses oleh admin
-        Route::resource('category', CategoryController::class);
+        Route::resource('category', CategoryController::class)->except('show');
+        // except buat matiin
+        // only buat menampilkan
     });
 });

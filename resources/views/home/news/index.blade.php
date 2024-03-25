@@ -6,6 +6,16 @@
             {{ session('udah') }}
         </div>
     @endif
+    @if (session('apus'))
+        <div class="alert alert-danger text-center mt-2">
+            {{ session('apus') }}
+        </div>
+    @endif
+    @if (session('up'))
+        <div class="alert alert-warning text-center mt-2">
+            {{ session('up') }}
+        </div>
+    @endif
     <div class="row">
         <div class="card p-4">
             <h3 class="fs-1">News Index</h3>
@@ -41,10 +51,20 @@
                                         class="rounded-3"></td>
                                 <td><img src="{{ $row->category->image }}" width="100px" alt="p" class="rounded-3">
                                 </td>
-                                <td>
-                                    <a href="{{ route('news.show', $row->id ) }}" class="btn btn-primary"><i class="bi bi-eye"></i></a>
-                                    <a href="{{ route('news.edit', $row->id) }}" class="btn btn-warning"><i class="bi bi-pencil"></i></a>
-                                    <button class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                                <td class="d-flex gap-3 ">
+                                    <a href="{{ route('news.show', $row->id) }}" class="btn btn-primary"><i
+                                            class="bi bi-eye"></i></a>
+
+                                    <a href="{{ route('news.edit', $row->id) }}" class="btn btn-warning"><i
+                                            class="bi bi-pencil"></i></a>
+
+                                    {{-- Button delete with route category.destroy --}}
+                                    <form action="{{ route('news.destroy', $row->id) }}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger inline-block" onclick="return confirm('Yakin mau dihapus?')"><i
+                                                class="bi bi-trash"></i></button>
+                                    </form>
                                 </td>
                             </tr>
                         @empty

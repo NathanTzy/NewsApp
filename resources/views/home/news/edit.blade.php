@@ -2,6 +2,16 @@
 
 @section('content')
     <div class="row">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="b mb-0 fw-bold text-center">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @else
+        @endif
         <div class="card p-4">
             <h3 class="fw-bold text-center my-4 fs-1">NEWS CREATOR</h3>
 
@@ -12,7 +22,8 @@
                 {{-- field buat title --}}
                 <div class="mb-3">
                     <label for="inputTitle" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="inputTitle" name="title" value="{{ $news->titlle }}">
+                    <input type="text" class="form-control" id="inputTitle" name="title" value="{{ $news->titlle }}"
+                        placeholder="{{ $news->title }}">
                 </div>
                 {{-- image --}}
                 <div class="mb-3">
@@ -25,7 +36,7 @@
                     <div class="col">
                         <select name="category_id" class="form-select" aria-label="category_id">
                             <option value="{{ $news->category->id }}" selected>{{ $news->category->name }}</option>
-                            <option class="fw-bold">
+                            <option class="fw-bold" disabled>
                                 <<<=== CHOOSE NEW CATEGORY===>>>
                             </option>
                             @foreach ($category as $row)
@@ -51,9 +62,11 @@
                         <i class="bi bi-pencil"></i>
                         Update News</button>
 
-                        <button class="btn btn-primary">
-                            <a href="{{ route('news.index') }}" class="text-white"><i class="bi bi-arrow-left"></i> Back</a>
-                        </button>
+                    <div class="d-flex justify-content-end">
+                        <a href="{{ route('news.index') }}" class="btn btn-primary p-2 text-white">
+                            <i class="bi bi-arrow-left"></i> Back
+                        </a>
+                    </div>
                 </div>
 
 
