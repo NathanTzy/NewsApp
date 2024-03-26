@@ -43,6 +43,16 @@
         .b {
             list-style: none;
         }
+        
+        #but{
+            top: 258px;
+            right: 410px;
+        }
+        #bat{
+            top: 670px;
+            right: 30px;
+            color: white;
+        }
     </style>
     
     {{-- CKEditor cdn --}}

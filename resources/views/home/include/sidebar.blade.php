@@ -12,22 +12,29 @@
             </li>
 
             @if (Auth::user()->role == 'admin')
-            {{-- category --}}
-            <li class="nav-item">
-                <a class="nav-link mt-3" href="{{ route('category.index') }}">
-                    <i class="bi bi-basket"></i>
-                    <span>Category</span>
-                </a>
-            </li>
-            {{-- news --}}
-            <li class="nav-item">
-                <a class="nav-link mt-3" href="{{ route('news.index') }}">
-                    <i class="bi bi-clipboard-data"></i>
-                    <span>News</span>
-                </a>
-            </li>
-        @else
-        @endif
+                {{-- all user --}}
+                <li class="nav-item mt-3">
+                    <a class="nav-link" href="{{ route('allUser') }}">
+                        <i class="bi bi-person"></i>
+                        <span>User</span>
+                    </a>
+                </li>
+                {{-- category --}}
+                <li class="nav-item">
+                    <a class="nav-link mt-3" href="{{ route('category.index') }}">
+                        <i class="bi bi-basket"></i>
+                        <span>Category</span>
+                    </a>
+                </li>
+                {{-- news --}}
+                <li class="nav-item">
+                    <a class="nav-link mt-3" href="{{ route('news.index') }}">
+                        <i class="bi bi-clipboard-data"></i>
+                        <span>News</span>
+                    </a>
+                </li>
+            @else
+            @endif
         </ul>
 
     </aside>

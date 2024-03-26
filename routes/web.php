@@ -18,12 +18,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+Route::get('/', [\App\Http\Controllers\Frontend\FrontEndController::class, 'index']);
+Route::get('/detail/news/{slug}',[\App\Http\Controllers\Frontend\FrontEndController::class, 'detailNews'])->name('detailNews');
+Route::get('/detail/category/{slug}',[\App\http\Controllers\Frontend\FrontEndController::class, 'detailCategory'])->name('detailCategory');
 Auth::routes();
 
+
+// buat ngilangin register
 
 // Auth::routes();
 // // handle redirect register to login
@@ -37,8 +38,13 @@ Route::resource('front',  FrontController::class);
 // Route middleware
 Route::middleware('auth')->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::get('/profile', [App\Http\Controllers\profile\ProfileController::class,'index'])->name('profile.index');
+    Route::get('/profile', [App\Http\Controllers\profile\ProfileController::class, 'index'])->name('profile.index');
     Route::get('/changePassword', [\App\Http\Controllers\profile\ProfileController::class, 'changePassword'])->name('profile.changePassword');
+    Route::put('/updatePassword', [\App\Http\Controllers\profile\ProfileController::class, 'updatePassword'])->name('profile.updatePassword');
+    Route::get('/createProfile', [App\Http\Controllers\profile\ProfileController::class, 'createProfile'])->name('createProfile');
+    Route::post('/storeProfile', [App\Http\Controllers\profile\ProfileController::class, 'storeProfile'])->name('storeProfile');
+    Route::get('/editProfile', [App\Http\Controllers\profile\ProfileController::class, 'editProfile'])->name('editProfile');
+    Route::put('/upadateProfile', [App\Http\Controllers\profile\ProfileController::class, 'updateProfile'])->name('updateProfile');
 
     // Route for admin
     Route::middleware(['auth', 'admin'])->group(function () {
@@ -49,5 +55,9 @@ Route::middleware('auth')->group(function () {
         Route::resource('category', CategoryController::class)->except('show');
         // except buat matiin
         // only buat menampilkan
+
+        // get allUser
+        Route::get('/allUser', [App\Http\Controllers\profile\ProfileController::class, 'allUser'])->name('allUser');
+        Route::put('/resetPassword/{id}', [App\Http\Controllers\profile\ProfileController::class, 'resetPassword'])->name('resetPassword');
     });
 });

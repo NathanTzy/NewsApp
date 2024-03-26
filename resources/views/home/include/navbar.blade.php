@@ -168,15 +168,28 @@
             <li class="nav-item dropdown pe-3">
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                    <img src="https://ui-avatars.com/api/background=FFD700?name={{ Auth::user()->name }}" alt="Profile"
-                        class="rounded-circle">
-                    <span class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->name }}</span>
+                    <div class="col-md-12">
+                        @if (empty(Auth::user()->profile->image))
+                            <img class="rounded-4"
+                                src="https://ui-avatars.com/api/background=FFD700?name={{ Auth::user()->name }}"
+                                alt="">
+                        @else
+                            <img src="{{ Auth::user()->profile->image }}" alt="profile"
+                                style="width: 50px; border-radius: 5px">
+                        @endif
+                        <span class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->name }}</span>
                 </a><!-- End Profile Iamge Icon -->
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                     <li class="dropdown-header">
-                        <img src="https://ui-avatars.com/api/background=FFD700?name={{ Auth::user()->name }}"
-                            alt="Profile" class="rounded-circle mb-2 ">
+                        @if (empty(Auth::user()->profile->image))
+                            <img class="rounded-circle"
+                                src="https://ui-avatars.com/api/background=FFD700?name={{ Auth::user()->name }}"
+                                alt="">
+                        @else
+                            <img src="{{ Auth::user()->profile->image }}" alt="profile"
+                                style="width: 100px; border-radius: 5px">
+                        @endif
                         <h6>{{ Auth::user()->name }}</h6>
                         <span>Web Designer</span>
                     </li>
@@ -195,14 +208,15 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="{{ route('profile.changePassword') }}">
+                        <a class="dropdown-item d-flex align-items-center"
+                            href="{{ route('profile.changePassword') }}">
                             <i class="bi bi-gear"></i>
                             <span>Change Password</span>
                         </a>
                     </li>
                     <li>
                         <hr class="dropdown-divider">
-                    </li>   
+                    </li>
 
                     <li>
                         <form action="{{ route('logout') }}" method="post">

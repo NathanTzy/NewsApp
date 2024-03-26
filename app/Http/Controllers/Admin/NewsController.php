@@ -53,7 +53,6 @@ class NewsController extends Controller
     {
         $this->validate($request, [
             'title' => 'required',
-            
             'image' => 'required|image|mimes:jpeg,png,jpg|max:5020',
             'content' => 'required',
             'category_id' => 'required'
