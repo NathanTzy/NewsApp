@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\NewsController;
-use App\Http\Controllers\FrontController;
+use App\Http\Controllers\Frontend\FrontEndController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -33,7 +33,7 @@ Auth::routes();
 // });
 
 
-Route::resource('front',  FrontController::class);
+Route::resource('front',  FrontEndController::class);
 
 // Route middleware
 Route::middleware('auth')->group(function () {
