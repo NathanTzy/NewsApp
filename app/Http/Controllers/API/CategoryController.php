@@ -78,7 +78,7 @@ class CategoryController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
+    {   
         try {
             $this->validate($request, [
                 'name' => 'required',

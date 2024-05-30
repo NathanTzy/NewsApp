@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,16 +23,23 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [\App\Http\Controllers\API\AuthController::class, 'logout']);
     // update password
     Route::post('/updatePassword', [\App\Http\Controllers\API\AuthController::class, 'updatePassword']);
+    // store profile
+    Route::post('/storeProfile', [AuthController::class, 'storeProfile']);
+    // update profile
+    Route::post('/updateProfile',[AuthController::class, 'updateProfile']);
 });
+
 // Route admin
 Route::group(['middleware' => ['auth:sanctum', 'admin']], function () {
     // Route for category
     Route::post('/category/create', [\App\Http\Controllers\API\CategoryController::class, 'store']);
-    Route::post('/category/update/{id}', [\App\Http\Controllers\API\CategoryController::class,'update']);
-    Route::delete('/category/destroy/{id}', [ \App\Http\Controllers\API\CategoryController::class , 'destroy']);
+    Route::post('/category/update/{id}', [\App\Http\Controllers\API\CategoryController::class, 'update']);
+    Route::delete('/category/destroy/{id}', [\App\Http\Controllers\API\CategoryController::class, 'destroy']);
 
     // Route for news
     Route::post('/news/create', [App\Http\Controllers\API\NewsController::class, 'store']);
+    Route::delete('/news/destroy/{id}', [App\Http\Controllers\API\NewsController::class, 'destroy']);
+    Route::post('/news/update/{id}', [App\Http\Controllers\API\NewsController::class, 'update']);
 });
 
 

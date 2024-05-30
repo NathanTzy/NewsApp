@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use PhpParser\Node\Stmt\TryCatch;
 use Throwable;
 
@@ -147,5 +148,88 @@ class AuthController extends Controller
             $users,
             'Data user berhasil dimabil'
         );
+    }
+    // store profile
+    public function storeProfile(Request $request)
+    {
+        try {
+            // store data
+            $this->validate($request, [
+                'first_name' => 'required|string|max:200',
+                'image' => 'image|mimes:jpg,jpeg,png|max:2048'
+            ]);
+
+            // get user login
+            $user = auth()->user();
+
+            // upload image
+            $image = $request->file('image');
+            $image->storeAs('public/profile', $image->hashName());
+
+            // create profile
+            $user->profile()->create([
+                'first_name' => $request->first_name,
+                'image' => $image->hashName()
+            ]);
+
+            // get data profile
+            $profile = $user->profile;
+
+            // return response
+            return ResponseFormatter::success(
+                $profile,
+                'profile updated'
+            );
+        } catch (\Exception $error) {
+            return ResponseFormatter::error([
+                'message' => 'Something wrong',
+                'error' => $error,
+            ], 'Authentication Failed', 500);
+        }
+    }
+
+    // update profile
+    public function updateProfile(Request $request)
+    {
+        try {
+            $this->validate($request, [
+                'first_name' => 'required',
+                'image' => 'image|mimes:jpg,jpeg,png|max:2048'
+            ]);
+
+            // get usr login
+            $user = auth()->user();
+
+            // klo gada profile
+            if (!$user->profile) {
+                // tampilkan error jika user tidak punya profil
+                return ResponseFormatter::error(['message'=>'no profile found'], 'Auth failed', 404);
+            }
+            // cek kondisi image klo ga di upload
+            if ($request->file('image') == '') {
+                $user->profile->update([
+                    'first_name' => $request->first_name
+                ]);
+            } else {
+                // delete image
+                Storage::delete('public/profile' . basename($user->profile->image));
+
+                //  upload gambar baru 
+                $image = $request->file('image');
+                $image->storeAs('public/profile', $image->getClientOriginalName());
+
+                // update image
+                $user->profile->update([
+                    'first_name' => $request->first_name,
+                    'image'      => $image->getClientOriginalName()
+                ]);
+            }
+            return ResponseFormatter::success($user, 'Success');
+        } catch (\Exception $error) {
+            return ResponseFormatter::error([
+                'message' => 'Something wrong',
+                'error' => $error,
+            ], 'Authentication Failed', 500);
+        }
     }
 }

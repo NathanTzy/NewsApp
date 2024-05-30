@@ -3,9 +3,9 @@
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Frontend\FrontEndController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -19,8 +19,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [\App\Http\Controllers\Frontend\FrontEndController::class, 'index']);
-Route::get('/detail/news/{slug}',[\App\Http\Controllers\Frontend\FrontEndController::class, 'detailNews'])->name('detailNews');
-Route::get('/detail/category/{slug}',[\App\http\Controllers\Frontend\FrontEndController::class, 'detailCategory'])->name('detailCategory');
+Route::get('/detail/news/{slug}', [\App\Http\Controllers\Frontend\FrontEndController::class, 'detailNews'])->name('detailNews');
+Route::get('/detail/category/{slug}', [\App\http\Controllers\Frontend\FrontEndController::class, 'detailCategory'])->name('detailCategory');
 Auth::routes();
 
 
@@ -61,3 +61,12 @@ Route::middleware('auth')->group(function () {
         Route::put('/resetPassword/{id}', [App\Http\Controllers\profile\ProfileController::class, 'resetPassword'])->name('resetPassword');
     });
 });
+
+// route artisan call
+Route::get('/artisan-call', function () {
+    Artisan::call('storage:link'); 
+    Artisan::call('route:clear'); 
+    Artisan::call('config:clear'); 
+    return 'done';
+});
+

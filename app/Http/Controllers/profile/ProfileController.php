@@ -17,11 +17,11 @@ class ProfileController extends Controller
         return view('home.profile.index', compact('title'));
     }
 
-    public function changePassword()
-    {
-        $title = 'Change Password';
-        return view('home.profile.changePassword', compact('title'));
-    }
+        public function changePassword()
+        {
+            $title = 'Change Password';
+            return view('home.profile.changePassword', compact('title'));
+        }
 
     public function updatePassword(Request $request)
     {
